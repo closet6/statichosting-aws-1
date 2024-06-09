@@ -37,12 +37,12 @@ resource "aws_s3_bucket_website_configuration" "www_bucket_web" {
 
 }
 
-# resource "aws_s3_bucket_versioning" "versioning_example" {
-#   bucket = aws_s3_bucket.www_bucket.id
-#   versioning_configuration {
-#     status = "Enabled"
-#   }
-# }
+resource "aws_s3_bucket_versioning" "www_bucket_ver" {
+  bucket = aws_s3_bucket.www_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
 
 resource "aws_s3_bucket_acl" "bucket-acl" {
   depends_on = [
