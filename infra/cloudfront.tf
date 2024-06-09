@@ -13,7 +13,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name              = aws_s3_bucket.www_bucket.bucket_regional_domain_name
     origin_access_control_id = aws_cloudfront_origin_access_control.originacl.id
-    origin_id                = "${var.s3_origin_id}-www.${var.bucket_name}"
+    origin_id                = "${var.s3_origin_id}-${var.bucket_name}"
   }
 
   enabled             = true
@@ -27,12 +27,10 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     prefix          = "bgl"
   }
 
-  aliases = ["www.${var.domain_name}", var.domain_name]
-
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "${var.s3_origin_id}-www.${var.bucket_name}"
+    target_origin_id = "${var.s3_origin_id}-${var.bucket_name}"
 
     forwarded_values {
       query_string = false

@@ -1,7 +1,7 @@
 
 # WEB BUCKET
 resource "aws_s3_bucket" "www_bucket" {
-  bucket = "www.${var.bucket_name}"
+  bucket = var.bucket_name
 
   tags = var.common_tags
 }
@@ -13,7 +13,7 @@ resource "aws_s3_bucket_cors_configuration" "www_bucket_cors" {
   cors_rule {
     allowed_headers = ["*"]
     allowed_methods = ["PUT", "POST"]
-    allowed_origins = ["https://www.${var.domain_name}"]
+    allowed_origins = ["https://${var.domain_name}"]
     expose_headers  = ["ETag"]
     max_age_seconds = 3000
   }
@@ -81,8 +81,8 @@ data "aws_iam_policy_document" "iam-policy-1" {
     sid    = "AllowPublicRead"
     effect = "Allow"
     resources = [
-      "arn:aws:s3:::www.${var.bucket_name}",
-      "arn:aws:s3:::www.${var.bucket_name}/*",
+      "arn:aws:s3:::${var.bucket_name}",
+      "arn:aws:s3:::${var.bucket_name}/*",
     ]
     actions = ["S3:GetObject"]
     principals {
