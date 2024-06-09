@@ -1,0 +1,9 @@
+resource "aws_s3_object" "object-upload-html" {
+  for_each     = fileset("../site/", "*.html")
+  bucket       = aws_s3_bucket.www_bucket.id
+  key          = each.value
+  source       = "../site/${each.value}"
+  content_type = "text/html"
+  etag         = filemd5("../site/${each.value}")
+  acl          = "public-read"
+}
